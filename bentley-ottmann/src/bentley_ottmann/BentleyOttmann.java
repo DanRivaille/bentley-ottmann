@@ -8,9 +8,9 @@ import java.util.*;
 
 public class BentleyOttmann {
 
-    private Queue<Event> Q;
-    private NavigableSet<Segment> T;
-    private ArrayList<Point> X;
+    private final Queue<Event> Q;
+    private final NavigableSet<Segment> T;
+    private final ArrayList<Point> X;
 
     BentleyOttmann(ArrayList<Segment> input_data) {
         this.Q = new PriorityQueue<>(new event_comparator());
@@ -89,7 +89,7 @@ public class BentleyOttmann {
         }
     }
 
-    private boolean report_intersection(Segment s_1, Segment s_2, double L) {
+    private void report_intersection(Segment s_1, Segment s_2, double L) {
         double x1 = s_1.first().get_x_coord();
         double y1 = s_1.first().get_y_coord();
         double x2 = s_1.second().get_x_coord();
@@ -107,23 +107,19 @@ public class BentleyOttmann {
                 double y_c = y1 + t * (y2 - y1);
                 if(x_c > L) {
                     this.Q.add(new Event(new Point(x_c, y_c), new ArrayList<>(Arrays.asList(s_1, s_2)), 2));
-                    return true;
                 }
             }
         }
-        return false;
     }
 
-    private boolean remove_future(Segment s_1, Segment s_2) {
+    private void remove_future(Segment s_1, Segment s_2) {
         for(Event e : this.Q) {
             if(e.get_type() == 2) {
                 if((e.get_segments().get(0) == s_1 && e.get_segments().get(1) == s_2) || (e.get_segments().get(0) == s_2 && e.get_segments().get(1) == s_1)) {
                     this.Q.remove(e);
-                    return true;
                 }
             }
         }
-        return false;
     }
 
     private void swap(Segment s_1, Segment s_2) {
@@ -137,15 +133,8 @@ public class BentleyOttmann {
     }
 
     private void recalculate(double L) {
-        Iterator<Segment> iter = this.T.iterator();
-        while(iter.hasNext()) {
-            iter.next().calculate_value(L);
-        }
-    }
-
-    public void print_intersections() {
-        for(Point p : this.X) {
-            System.out.println("(" + p.get_x_coord() + ", " + p.get_y_coord() + ")");
+        for (Segment segment : this.T) {
+            segment.calculate_value(L);
         }
     }
 
@@ -153,7 +142,7 @@ public class BentleyOttmann {
         return this.X;
     }
 
-    private class event_comparator implements Comparator<Event> {
+    private static class event_comparator implements Comparator<Event> {
         @Override
         public int compare(Event e_1, Event e_2) {
             if(e_1.get_value() > e_2.get_value()) {
@@ -166,7 +155,7 @@ public class BentleyOttmann {
         }
     }
 
-    private class segment_comparator implements Comparator<Segment> {
+    private static class segment_comparator implements Comparator<Segment> {
         @Override
         public int compare(Segment s_1, Segment s_2) {
             if(s_1.get_value() < s_2.get_value()) {
