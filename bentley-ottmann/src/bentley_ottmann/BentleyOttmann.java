@@ -156,26 +156,14 @@ public class BentleyOttmann {
     private static class event_comparator implements Comparator<Event> {
         @Override
         public int compare(Event e_1, Event e_2) {
-            if(e_1.get_value() > e_2.get_value()) {
-                return 1;
-            }
-            if(e_1.get_value() < e_2.get_value()) {
-                return -1;
-            }
-            return 0;
+            return Double.compare(e_1.get_value(), e_2.get_value());
         }
     }
 
     private static class segment_comparator implements Comparator<Segment> {
         @Override
         public int compare(Segment s_1, Segment s_2) {
-            if(s_1.get_value() < s_2.get_value()) {
-                return 1;
-            }
-            if(s_1.get_value() > s_2.get_value()) {
-                return -1;
-            }
-            return 0;
+            return Double.compare(s_2.get_value(), s_1.get_value());
         }
     }
 }

@@ -8,7 +8,7 @@ public class Segment {
 
     private Point p_1;
     private Point p_2;
-    double value;
+    private double value;
 
     Segment(Point p_1, Point p_2) {
         this.p_1 = p_1;
