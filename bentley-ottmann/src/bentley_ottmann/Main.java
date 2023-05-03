@@ -1,5 +1,6 @@
 package bentley_ottmann;
 
+import javax.xml.crypto.Data;
 import java.util.*;
 
 /**
@@ -14,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        DataManager dataManager = new DataManager();
 
         Point p1 = new Point(550, 200);
         Point p2 = new Point(650, 450);
@@ -32,7 +33,9 @@ public class Main {
             case 0 -> addPoints1(data);
             case 1 -> addPoints2(data);
             case 2 -> addPoints3(data);
+            case 3 -> data = dataManager.loadPoints();
         }
+        dataManager.savePoints(data);
 
         for (Polyline pl: polylines) {
             for (int i = 1; i < pl.getPointCount(); ++i) {
@@ -48,7 +51,6 @@ public class Main {
         test.find_intersections();
         long t2 = System.currentTimeMillis();
 
-        //test.print_intersections();
         ArrayList<Point> intersections = test.get_intersections();
 
         new GUI(data, intersections, polylines);
@@ -102,5 +104,13 @@ public class Main {
                 data.add(new Segment(p_1, p_2));
             }
         }
+    }
+
+    private static void savePoints(ArrayList<Segment> data) {
+
+    }
+
+    private static ArrayList<Segment> loadPoints() {
+        return null;
     }
 }
