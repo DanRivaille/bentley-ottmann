@@ -8,6 +8,8 @@ import javax.swing.*;
 
 /**
  * Created by valen_000 on 15. 5. 2017.
+ *
+ * Edited by Ivan Santos V. on 3. 5. 2023.
  */
 
 public class GUI extends JFrame {

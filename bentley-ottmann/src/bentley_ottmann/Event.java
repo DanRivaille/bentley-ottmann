@@ -4,6 +4,8 @@ import java.util.*;
 
 /**
  * Created by valen_000 on 14. 5. 2017.
+ *
+ * Edited by Ivan Santos V. on 3. 5. 2023.
  */
 
 public class Event {

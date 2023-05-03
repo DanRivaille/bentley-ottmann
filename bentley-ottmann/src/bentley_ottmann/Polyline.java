@@ -1,9 +1,11 @@
 package bentley_ottmann;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Created by Ivan Santos V. on 3. 5. 2023.
+ */
 public class Polyline {
     private ArrayList<Point> points = new ArrayList<>(4);
 
