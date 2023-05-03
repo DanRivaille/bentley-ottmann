@@ -11,16 +11,16 @@ public class Event {
     private Point point;
     private final ArrayList<Segment> segments;
     private double value;
-    private int type;
+    private EventType type;
 
-    Event(Point p, Segment s, int type) {
+    Event(Point p, Segment s, EventType type) {
         this.point = p;
         this.segments = new ArrayList<>(Arrays.asList(s));
         this.value = p.get_x_coord();
         this.type = type;
     }
 
-    Event(Point p, ArrayList<Segment> s, int type) {
+    Event(Point p, ArrayList<Segment> s, EventType type) {
         this.point = p;
         this.segments = s;
         this.value = p.get_x_coord();
@@ -43,11 +43,11 @@ public class Event {
         return this.segments;
     }
 
-    public void set_type(int type) {
+    public void set_type(EventType type) {
         this.type = type;
     }
 
-    public int get_type() {
+    public EventType get_type() {
         return this.type;
     }
 

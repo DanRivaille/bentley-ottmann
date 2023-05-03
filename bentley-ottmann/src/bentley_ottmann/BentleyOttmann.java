@@ -17,12 +17,12 @@ public class BentleyOttmann {
         this.T = new TreeSet<>(new segment_comparator());
         this.X = new ArrayList<>();
         for(Segment s : input_data) {
-            this.Q.add(new Event(s.first(), s, 0));
-            this.Q.add(new Event(s.second(), s, 1));
+            this.Q.add(new Event(s.first(), s, EventType.INITIAL_ENDPOINT));
+            this.Q.add(new Event(s.second(), s, EventType.FINAL_ENDPOINT));
         }
     }
 
-    private void case0(Event e, double L) {
+    private void processInitialEndpoint(Event e, double L) {
         for(Segment s : e.get_segments()) {
             this.recalculate(L);
             this.T.add(s);
@@ -42,7 +42,7 @@ public class BentleyOttmann {
         }
     }
 
-    private void case1(Event e, double L) {
+    private void processFinalEndpoint(Event e, double L) {
         for(Segment s : e.get_segments()) {
             if(this.T.lower(s) != null && this.T.higher(s) != null) {
                 Segment r = this.T.lower(s);
@@ -53,7 +53,7 @@ public class BentleyOttmann {
         }
     }
 
-    private void case2(Event e, double L) {
+    private void processCrossEndpoint(Event e, double L) {
         Segment s_1 = e.get_segments().get(0);
         Segment s_2 = e.get_segments().get(1);
         this.swap(s_1, s_2);
@@ -86,16 +86,10 @@ public class BentleyOttmann {
     public void find_intersections() {
         while(!this.Q.isEmpty()) {
             Event e = this.Q.poll();
-            switch(e.get_type()) {
-            case 0:
-                case0(e, e.get_value());
-                break;
-            case 1:
-                case1(e, e.get_value());
-                break;
-            case 2:
-                case2(e, e.get_value());
-                break;
+            switch (e.get_type()) {
+                case INITIAL_ENDPOINT -> processInitialEndpoint(e, e.get_value());
+                case FINAL_ENDPOINT   -> processFinalEndpoint(e, e.get_value());
+                case CROSS_ENDPOINT   -> processCrossEndpoint(e, e.get_value());
             }
         }
     }
@@ -117,7 +111,7 @@ public class BentleyOttmann {
                 double x_c = x1 + t * (x2 - x1);
                 double y_c = y1 + t * (y2 - y1);
                 if(x_c > L) {
-                    this.Q.add(new Event(new Point(x_c, y_c), new ArrayList<>(Arrays.asList(s_1, s_2)), 2));
+                    this.Q.add(new Event(new Point(x_c, y_c), new ArrayList<>(Arrays.asList(s_1, s_2)), EventType.CROSS_ENDPOINT));
                 }
             }
         }
@@ -125,7 +119,7 @@ public class BentleyOttmann {
 
     private void remove_future(Segment s_1, Segment s_2) {
         for(Event e : this.Q) {
-            if(e.get_type() == 2) {
+            if(EventType.CROSS_ENDPOINT == e.get_type()) {
                 if((e.get_segments().get(0) == s_1 && e.get_segments().get(1) == s_2) || (e.get_segments().get(0) == s_2 && e.get_segments().get(1) == s_1)) {
                     this.Q.remove(e);
                 }
