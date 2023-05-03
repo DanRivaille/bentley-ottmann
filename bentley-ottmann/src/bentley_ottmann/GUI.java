@@ -84,9 +84,9 @@ public class GUI extends JFrame {
 
         // Draw segments
         for(Segment s : this.input_data) {
-            this.drawLine(g2, s, Color.BLACK);
-            this.drawPoint(g2, s.first(), Color.GRAY);
-            this.drawPoint(g2, s.second(), Color.GRAY);
+            this.drawLine(g2, s, Color.LIGHT_GRAY);
+            this.drawPoint(g2, s.first(), Color.BLACK);
+            this.drawPoint(g2, s.second(), Color.BLACK);
         }
 
         // Draw polylines
