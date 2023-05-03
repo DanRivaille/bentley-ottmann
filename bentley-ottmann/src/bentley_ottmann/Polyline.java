@@ -1,13 +1,18 @@
 package bentley_ottmann;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by Ivan Santos V. on 3. 5. 2023.
  */
 public class Polyline {
-    private ArrayList<Point> points = new ArrayList<>(4);
+    private final ArrayList<Point> points = new ArrayList<>();
+
+    public Polyline(List<Point> points) {
+        this.points.addAll(points);
+    }
 
     public Point getPoint(int index) {
         return this.points.get(index);
@@ -17,7 +22,7 @@ public class Polyline {
         return this.points.size();
     }
 
-    public Polyline(List<Point> points) {
-        this.points.addAll(points);
+    public ArrayList<Point> getPointsList() {
+        return this.points;
     }
 }

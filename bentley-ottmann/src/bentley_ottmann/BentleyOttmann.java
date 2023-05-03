@@ -13,11 +13,13 @@ public class BentleyOttmann {
     private final Queue<Event> Q;
     private final NavigableSet<Segment> T;
     private final ArrayList<Point> X;
+    private final ArrayList<Polyline> polylines;
 
-    BentleyOttmann(ArrayList<Segment> input_data) {
+    BentleyOttmann(ArrayList<Segment> input_data, ArrayList<Polyline> polylines) {
         this.Q = new PriorityQueue<>(new event_comparator());
         this.T = new TreeSet<>(new segment_comparator());
         this.X = new ArrayList<>();
+        this.polylines = polylines;
         for(Segment s : input_data) {
             this.Q.add(new Event(s.first(), s, EventType.INITIAL_ENDPOINT));
             this.Q.add(new Event(s.second(), s, EventType.FINAL_ENDPOINT));
@@ -64,7 +66,20 @@ public class BentleyOttmann {
         } else {
             computeBelowAndAboveSegments(s_2, s_1, L);
         }
-        this.X.add(e.get_point());
+
+        if (!checkIfIsPolylinePoints(e.get_point()))
+            this.X.add(e.get_point());
+    }
+
+    private boolean checkIfIsPolylinePoints(Point crossPoint) {
+        for (Polyline polyline: this.polylines) {
+            for (Point point: polyline.getPointsList()) {
+                if (crossPoint.compareTo(point) == 0)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     private void computeBelowAndAboveSegments(Segment s_1, Segment s_2, double L) {

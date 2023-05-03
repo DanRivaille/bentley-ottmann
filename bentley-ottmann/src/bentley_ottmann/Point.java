@@ -4,7 +4,7 @@ package bentley_ottmann;
  * Created by valen_000 on 14. 5. 2017.
  */
 
-public class Point {
+public class Point implements Comparable<Point> {
 
     private double x_coord;
     private double y_coord;
@@ -30,4 +30,8 @@ public class Point {
         this.y_coord = y_coord;
     }
 
+    @Override
+    public int compareTo(Point o) {
+        return ((o.x_coord == this.x_coord) && ((o.y_coord == this.y_coord))) ? 0 : 1;
+    }
 }

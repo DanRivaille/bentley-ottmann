@@ -41,7 +41,7 @@ public class Main {
             }
         }
 
-        BentleyOttmann test = new BentleyOttmann(data);
+        BentleyOttmann test = new BentleyOttmann(data, polylines);
 
         long t1 = System.currentTimeMillis();
         test.find_intersections();
