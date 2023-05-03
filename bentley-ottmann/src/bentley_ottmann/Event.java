@@ -9,7 +9,7 @@ import java.util.*;
 public class Event {
 
     private Point point;
-    private ArrayList<Segment> segments;
+    private final ArrayList<Segment> segments;
     private double value;
     private int type;
 
