@@ -86,7 +86,7 @@ public class BentleyOttmann {
             switch (e.get_type()) {
                 case INITIAL_ENDPOINT -> processInitialEndpoint(e, e.get_value());
                 case FINAL_ENDPOINT   -> processFinalEndpoint(e, e.get_value());
-                case CROSS_ENDPOINT   -> processCrossEndpoint(e, e.get_value());
+                case CROSS_POINT      -> processCrossEndpoint(e, e.get_value());
             }
         }
     }
@@ -108,7 +108,7 @@ public class BentleyOttmann {
                 double x_c = x1 + t * (x2 - x1);
                 double y_c = y1 + t * (y2 - y1);
                 if(x_c > L) {
-                    this.Q.add(new Event(new Point(x_c, y_c), new ArrayList<>(Arrays.asList(s_1, s_2)), EventType.CROSS_ENDPOINT));
+                    this.Q.add(new Event(new Point(x_c, y_c), new ArrayList<>(Arrays.asList(s_1, s_2)), EventType.CROSS_POINT));
                 }
             }
         }
@@ -116,7 +116,7 @@ public class BentleyOttmann {
 
     private void remove_future(Segment s_1, Segment s_2) {
         for(Event e : this.Q) {
-            if(EventType.CROSS_ENDPOINT == e.get_type()) {
+            if(EventType.CROSS_POINT == e.get_type()) {
                 if((e.get_segments().get(0) == s_1 && e.get_segments().get(1) == s_2) || (e.get_segments().get(0) == s_2 && e.get_segments().get(1) == s_1)) {
                     this.Q.remove(e);
                 }
