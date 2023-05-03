@@ -60,29 +60,24 @@ public class BentleyOttmann {
         Segment s_2 = e.get_segments().get(1);
         this.swap(s_1, s_2);
         if(s_1.get_value() < s_2.get_value()) {
-            if(this.T.higher(s_1) != null) {
-                Segment t = this.T.higher(s_1);
-                this.report_intersection(t, s_1, L);
-                this.remove_future(t, s_2);
-            }
-            if(this.T.lower(s_2) != null) {
-                Segment r = this.T.lower(s_2);
-                this.report_intersection(r, s_2, L);
-                this.remove_future(r, s_1);
-            }
+            computeBelowAndAboveSegments(s_1, s_2, L);
         } else {
-            if(this.T.higher(s_2) != null) {
-                Segment t = this.T.higher(s_2);
-                this.report_intersection(t, s_2, L);
-                this.remove_future(t, s_1);
-            }
-            if(this.T.lower(s_1) != null) {
-                Segment r = this.T.lower(s_1);
-                this.report_intersection(r, s_1, L);
-                this.remove_future(r, s_2);
-            }
+            computeBelowAndAboveSegments(s_2, s_1, L);
         }
         this.X.add(e.get_point());
+    }
+
+    private void computeBelowAndAboveSegments(Segment s_1, Segment s_2, double L) {
+        if(this.T.higher(s_1) != null) {
+            Segment t = this.T.higher(s_1);
+            this.report_intersection(t, s_1, L);
+            this.remove_future(t, s_2);
+        }
+        if(this.T.lower(s_2) != null) {
+            Segment r = this.T.lower(s_2);
+            this.report_intersection(r, s_2, L);
+            this.remove_future(r, s_1);
+        }
     }
 
     public void find_intersections() {
