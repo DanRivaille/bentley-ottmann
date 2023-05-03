@@ -67,19 +67,20 @@ public class BentleyOttmann {
             computeBelowAndAboveSegments(s_2, s_1, L);
         }
 
-        if (!checkIfIsPolylinePoints(e.get_point()))
+        if (isVertexSegment(s_1) ^ isVertexSegment(s_2))
             this.X.add(e.get_point());
     }
 
-    private boolean checkIfIsPolylinePoints(Point crossPoint) {
+    private boolean isVertexSegment(Segment segment) {
         for (Polyline polyline: this.polylines) {
-            for (Point point: polyline.getPointsList()) {
-                if (crossPoint.compareTo(point) == 0)
-                    return true;
+            ArrayList<Segment> segmentsPolyline = polyline.getSegments();
+
+            for (Segment segmentPolyline: segmentsPolyline) {
+                if ((segmentPolyline.first().compareTo(segment.first()) == 0) && (segmentPolyline.second().compareTo(segment.second()) == 0))
+                    return false;
             }
         }
-
-        return false;
+        return true;
     }
 
     private void computeBelowAndAboveSegments(Segment s_1, Segment s_2, double L) {
@@ -134,6 +135,7 @@ public class BentleyOttmann {
             if(EventType.CROSS_POINT == e.get_type()) {
                 if((e.get_segments().get(0) == s_1 && e.get_segments().get(1) == s_2) || (e.get_segments().get(0) == s_2 && e.get_segments().get(1) == s_1)) {
                     this.Q.remove(e);
+                    break;
                 }
             }
         }

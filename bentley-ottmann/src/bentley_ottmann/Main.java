@@ -20,12 +20,13 @@ public class Main {
         Point p2 = new Point(650, 450);
         Point p3 = new Point(450, 700);
         Point p4 = new Point(750, 850);
+
         Polyline polyline = new Polyline(Arrays.asList(p1, p2, p3, p4));
         ArrayList<Polyline> polylines = new ArrayList<>();
         polylines.add(polyline);
 
         ArrayList<Segment> data = new ArrayList<>();
-        int aux = 1;
+        int aux = 0;
 
         switch (aux) {
             case 0 -> addPoints1(data);
@@ -63,7 +64,7 @@ public class Main {
 
 
     private static void addPoints1(ArrayList<Segment> data) {
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 10; i++) {
             Point p_1 = new Point(rand(range_min, range_max), rand(range_min, range_max));
             Point p_2 = new Point(rand(range_min, range_max), rand(range_min, range_max));
             data.add(new Segment(p_1, p_2));
@@ -78,6 +79,9 @@ public class Main {
             Point p_2 = new Point(700, (i + 2) * intervalRange);
             data.add(new Segment(p_1, p_2));
         }
+        Point p5 = new Point(300, 300);
+        Point p6 = new Point(300, 700);
+        data.add(new Segment(p5, p6));
     }
 
     private static void addPoints3(ArrayList<Segment> data) {

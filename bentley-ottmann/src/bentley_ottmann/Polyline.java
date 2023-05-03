@@ -25,4 +25,16 @@ public class Polyline {
     public ArrayList<Point> getPointsList() {
         return this.points;
     }
+
+    public ArrayList<Segment> getSegments() {
+        ArrayList<Segment> segments = new ArrayList<>(getPointCount() - 1);
+
+        for (int i = 1; i < getPointCount(); ++i) {
+            Point p1 = getPoint(i - 1);
+            Point p2 = getPoint(i);
+            segments.add(new Segment(p1, p2));
+        }
+
+        return segments;
+    }
 }
