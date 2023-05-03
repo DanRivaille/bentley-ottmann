@@ -14,12 +14,15 @@ public class GUI extends JFrame {
 
     private ArrayList<Segment> input_data;
     private ArrayList<Point> intersections;
+
+    private ArrayList<Polyline> polylines;
     private boolean repaint = false;
 
-    public GUI(final ArrayList<Segment> input_data, final ArrayList<Point> intersections) {
+    public GUI(final ArrayList<Segment> input_data, final ArrayList<Point> intersections, final ArrayList<Polyline> polylines) {
 
         this.input_data = input_data;
         this.intersections = intersections;
+        this.polylines = polylines;
 
         JPanel panel = new JPanel();
         getContentPane().add(panel);
@@ -52,6 +55,25 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
+    private void drawPoint(Graphics2D g2, Point p, Paint color) {
+        double new_x = p.get_x_coord() - 6 / 2.0;
+        double new_y = p.get_y_coord() - 6 / 2.0;
+        Ellipse2D.Double point = new Ellipse2D.Double(new_x, new_y, 6, 6);
+        g2.setPaint(color);
+        g2.fill(point);
+        g2.draw(point);
+    }
+
+    private void drawLine(Graphics2D g2, Segment s, Paint color) {
+        Line2D.Double segment = new Line2D.Double(s.first().get_x_coord(), s.first().get_y_coord(), s.second().get_x_coord(), s.second().get_y_coord());
+        g2.setPaint(color);
+        g2.draw(segment);
+    }
+
+    private void drawLine(Graphics2D g2, Point point1, Point point2, Paint color) {
+        drawLine(g2, new Segment(point1, point2), color);
+    }
+
     @Override
     public void paint(Graphics g) {
 
@@ -60,20 +82,30 @@ public class GUI extends JFrame {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
+        // Draw segments
         for(Segment s : this.input_data) {
-            Line2D.Double segment = new Line2D.Double(s.first().get_x_coord(), s.first().get_y_coord(), s.second().get_x_coord(), s.second().get_y_coord());
-            g2.draw(segment);
+            this.drawLine(g2, s, Color.BLACK);
+            this.drawPoint(g2, s.first(), Color.GRAY);
+            this.drawPoint(g2, s.second(), Color.GRAY);
         }
 
+        // Draw polylines
+        for (Polyline pl: this.polylines) {
+            this.drawPoint(g2, pl.getPoint(0), Color.GREEN);
+            for (int i = 1; i < pl.getPointCount(); ++i) {
+                Point p1 = pl.getPoint(i - 1);
+                Point p2 = pl.getPoint(i);
+
+                this.drawLine(g2, p1, p2, Color.BLUE);
+                this.drawPoint(g2, p2, Color.GREEN);
+            }
+        }
+
+        // Draw intersections
         if(repaint) {
             g2.drawString("number of intersections: " + this.intersections.size(), 40, 70);
             for (Point p : this.intersections) {
-                double new_x = p.get_x_coord() - 6 / 2.0;
-                double new_y = p.get_y_coord() - 6 / 2.0;
-                Ellipse2D.Double point = new Ellipse2D.Double(new_x, new_y, 6, 6);
-                g2.setPaint(Color.RED);
-                g2.fill(point);
-                g2.draw(point);
+                this.drawPoint(g2, p, Color.RED);
             }
         }
 
