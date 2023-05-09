@@ -9,10 +9,12 @@ public class Segment {
     private Point p_1;
     private Point p_2;
     private double value;
+    private SegmentType type;
 
-    Segment(Point p_1, Point p_2) {
+    Segment(Point p_1, Point p_2, SegmentType type) {
         this.p_1 = p_1;
         this.p_2 = p_2;
+        this.type = type;
         this.calculate_value(this.first().get_x_coord());
     }
 
@@ -46,6 +48,10 @@ public class Segment {
 
     public double get_value() {
         return this.value;
+    }
+
+    public SegmentType getType() {
+        return this.type;
     }
 
 }

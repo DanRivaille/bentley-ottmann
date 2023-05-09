@@ -51,7 +51,7 @@ public class DataManager {
 
                 Point p1 = new Point(Double.parseDouble(valuesStringList[0]), Double.parseDouble(valuesStringList[1]));
                 Point p2 = new Point(Double.parseDouble(valuesStringList[2]), Double.parseDouble(valuesStringList[3]));
-                data.add(new Segment(p1, p2));
+                data.add(new Segment(p1, p2, SegmentType.VERTEX_SEGMENT));
             }
         } catch (IOException e) {
             System.out.println(e);

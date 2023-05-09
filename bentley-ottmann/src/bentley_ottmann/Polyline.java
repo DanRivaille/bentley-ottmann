@@ -35,7 +35,7 @@ public class Polyline {
 
             p1.set_x_coord(p1.get_x_coord() + 0.1);
 
-            segments.add(new Segment(p1, p2));
+            segments.add(new Segment(p1, p2, SegmentType.POLYLINE_SEGMENT));
         }
 
         return segments;

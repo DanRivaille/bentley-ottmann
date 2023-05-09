@@ -73,7 +73,7 @@ public class GUI extends JFrame {
     }
 
     private void drawLine(Graphics2D g2, Point point1, Point point2, Paint color) {
-        drawLine(g2, new Segment(point1, point2), color);
+        drawLine(g2, new Segment(point1, point2, SegmentType.VERTEX_SEGMENT), color);
     }
 
     @Override

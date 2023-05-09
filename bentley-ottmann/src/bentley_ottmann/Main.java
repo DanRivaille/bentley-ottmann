@@ -65,7 +65,7 @@ public class Main {
         for(int i = 0; i < 10; i++) {
             Point p_1 = new Point(rand(range_min, range_max), rand(range_min, range_max));
             Point p_2 = new Point(rand(range_min, range_max), rand(range_min, range_max));
-            data.add(new Segment(p_1, p_2));
+            data.add(new Segment(p_1, p_2, SegmentType.VERTEX_SEGMENT));
         }
     }
 
@@ -75,11 +75,11 @@ public class Main {
         for(int i = 0; i < numberOfPointsPerSide; i++) {
             Point p_1 = new Point(200, (i + 1) * intervalRange);
             Point p_2 = new Point(700, (i + 2) * intervalRange);
-            data.add(new Segment(p_1, p_2));
+            data.add(new Segment(p_1, p_2, SegmentType.VERTEX_SEGMENT));
         }
         Point p5 = new Point(300, 300);
         Point p6 = new Point(300, 700);
-        data.add(new Segment(p5, p6));
+        data.add(new Segment(p5, p6, SegmentType.VERTEX_SEGMENT));
     }
 
     private static void addPoints3(ArrayList<Segment> data) {
@@ -97,7 +97,7 @@ public class Main {
             for (int j = i + 1; j < points.size(); ++j) {
                 Point p_1 = points.get(i);
                 Point p_2 = points.get(j);
-                data.add(new Segment(p_1, p_2));
+                data.add(new Segment(p_1, p_2, SegmentType.VERTEX_SEGMENT));
             }
         }
     }
