@@ -72,15 +72,7 @@ public class BentleyOttmann {
     }
 
     private boolean isVertexSegment(Segment segment) {
-        for (Polyline polyline: this.polylines) {
-            ArrayList<Segment> segmentsPolyline = polyline.getSegments();
-
-            for (Segment segmentPolyline: segmentsPolyline) {
-                if ((segmentPolyline.first().compareTo(segment.first()) == 0) && (segmentPolyline.second().compareTo(segment.second()) == 0))
-                    return false;
-            }
-        }
-        return true;
+        return SegmentType.VERTEX_SEGMENT == segment.getType();
     }
 
     private void computeBelowAndAboveSegments(Segment s_1, Segment s_2, double L) {
