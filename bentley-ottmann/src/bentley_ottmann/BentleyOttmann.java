@@ -13,13 +13,11 @@ public class BentleyOttmann {
     private final Queue<Event> Q;
     private final NavigableSet<Segment> T;
     private final ArrayList<Point> X;
-    private final ArrayList<Polyline> polylines;
 
-    BentleyOttmann(ArrayList<Segment> input_data, ArrayList<Polyline> polylines) {
+    BentleyOttmann(ArrayList<Segment> input_data) {
         this.Q = new PriorityQueue<>(new event_comparator());
         this.T = new TreeSet<>(new segment_comparator());
         this.X = new ArrayList<>();
-        this.polylines = polylines;
         for(Segment s : input_data) {
             this.Q.add(new Event(s.first(), s, EventType.INITIAL_ENDPOINT));
             this.Q.add(new Event(s.second(), s, EventType.FINAL_ENDPOINT));

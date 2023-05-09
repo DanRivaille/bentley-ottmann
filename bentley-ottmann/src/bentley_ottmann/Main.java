@@ -41,7 +41,7 @@ public class Main {
             data.addAll(pl.getSegments());
         }
 
-        BentleyOttmann test = new BentleyOttmann(data, polylines);
+        BentleyOttmann test = new BentleyOttmann(data);
 
         long t1 = System.currentTimeMillis();
         test.find_intersections();
