@@ -20,7 +20,7 @@ public class Main {
         Point p1 = new Point(550, 200);
         Point p2 = new Point(650, 450);
         Point p3 = new Point(450, 700);
-        Point p4 = new Point(750, 850);
+        Point p4 = new Point(660, 850);
 
         Polyline polyline = new Polyline(Arrays.asList(p1, p2, p3, p4));
         ArrayList<Polyline> polylines = new ArrayList<>();
@@ -37,11 +37,15 @@ public class Main {
         }
         //dataManager.savePoints(data);
 
+        int numberOfPolylinesSegments = 0;
         for (Polyline pl: polylines) {
-            data.addAll(pl.getSegments());
+            ArrayList<Segment> segments = pl.getSegments();
+
+            numberOfPolylinesSegments += segments.size();
+            data.addAll(segments);
         }
 
-        BentleyOttmann test = new BentleyOttmann(data);
+        BentleyOttmann test = new BentleyOttmann(data, numberOfPolylinesSegments);
 
         long t1 = System.currentTimeMillis();
         test.find_intersections();

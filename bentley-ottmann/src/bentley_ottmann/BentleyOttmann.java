@@ -13,11 +13,15 @@ public class BentleyOttmann {
     private final Queue<Event> Q;
     private final NavigableSet<Segment> T;
     private final ArrayList<Point> X;
+    private final int numberOfPolylinesSegments;
+    private int numberOfPolylinesSegmentsProcesses = 0;
+    private int currentPolylinesSegmentsInProcess = 0;
 
-    BentleyOttmann(ArrayList<Segment> input_data) {
+    BentleyOttmann(ArrayList<Segment> input_data, int numberOfPolylinesSegments) {
         this.Q = new PriorityQueue<>(new event_comparator());
         this.T = new TreeSet<>(new segment_comparator());
         this.X = new ArrayList<>();
+        this.numberOfPolylinesSegments = numberOfPolylinesSegments;
         for(Segment s : input_data) {
             this.Q.add(new Event(s.first(), s, EventType.INITIAL_ENDPOINT));
             this.Q.add(new Event(s.second(), s, EventType.FINAL_ENDPOINT));
@@ -26,6 +30,11 @@ public class BentleyOttmann {
 
     private void processInitialEndpoint(Event e, double L) {
         for(Segment s : e.get_segments()) {
+            if (SegmentType.POLYLINE_SEGMENT == s.getType()) {
+                this.numberOfPolylinesSegmentsProcesses++;
+                this.currentPolylinesSegmentsInProcess++;
+            }
+
             this.recalculate(L);
             this.T.add(s);
             if(this.T.lower(s) != null) {
@@ -52,6 +61,9 @@ public class BentleyOttmann {
                 this.report_intersection(r, t, L);
             }
             this.T.remove(s);
+
+            if (SegmentType.POLYLINE_SEGMENT == s.getType())
+                this.currentPolylinesSegmentsInProcess--;
         }
     }
 
@@ -87,6 +99,7 @@ public class BentleyOttmann {
     }
 
     public void find_intersections() {
+        int i = 0;
         while(!this.Q.isEmpty()) {
             Event e = this.Q.poll();
             switch (e.get_type()) {
@@ -94,7 +107,11 @@ public class BentleyOttmann {
                 case FINAL_ENDPOINT   -> processFinalEndpoint(e, e.get_value());
                 case CROSS_POINT      -> processCrossEndpoint(e, e.get_value());
             }
+            i++;
+            if ((this.numberOfPolylinesSegments == this.numberOfPolylinesSegmentsProcesses) && (this.currentPolylinesSegmentsInProcess == 0))
+                break;
         }
+        System.out.println(i);
     }
 
     private void report_intersection(Segment s_1, Segment s_2, double L) {
