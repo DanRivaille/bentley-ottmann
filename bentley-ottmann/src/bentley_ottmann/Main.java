@@ -27,7 +27,7 @@ public class Main {
         polylines.add(polyline);
 
         ArrayList<Segment> data = new ArrayList<>();
-        int aux = 0;
+        int aux = 3;
 
         switch (aux) {
             case 0 -> addPoints1(data);
@@ -35,14 +35,10 @@ public class Main {
             case 2 -> addPoints3(data);
             case 3 -> data = dataManager.loadPoints();
         }
-        dataManager.savePoints(data);
+        //dataManager.savePoints(data);
 
         for (Polyline pl: polylines) {
-            for (int i = 1; i < pl.getPointCount(); ++i) {
-                Point point1 = pl.getPoint(i - 1);
-                Point point2 = pl.getPoint(i);
-                data.add(new Segment(point1, point2));
-            }
+            data.addAll(pl.getSegments());
         }
 
         BentleyOttmann test = new BentleyOttmann(data, polylines);

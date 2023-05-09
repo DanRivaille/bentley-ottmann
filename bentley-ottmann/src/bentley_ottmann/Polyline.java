@@ -30,8 +30,11 @@ public class Polyline {
         ArrayList<Segment> segments = new ArrayList<>(getPointCount() - 1);
 
         for (int i = 1; i < getPointCount(); ++i) {
-            Point p1 = getPoint(i - 1);
-            Point p2 = getPoint(i);
+            Point p1 = getPoint(i - 1).copy();
+            Point p2 = getPoint(i).copy();
+
+            p1.set_x_coord(p1.get_x_coord() + 0.1);
+
             segments.add(new Segment(p1, p2));
         }
 

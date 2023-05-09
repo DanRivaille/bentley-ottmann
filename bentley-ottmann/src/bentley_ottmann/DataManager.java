@@ -13,7 +13,8 @@ import java.util.List;
 
 public class DataManager {
 
-    private String filename = "C:\\Users\\Spider.cl\\Repositories\\points.csv";
+    //private String filename = "C:\\Users\\Spider.cl\\Repositories\\points.csv"; // For Windows
+    private String filename = "/Users/dansantos/Repositories/points.csv"; // For Mac
 
     public void savePoints(ArrayList<Segment> data) {
         try {

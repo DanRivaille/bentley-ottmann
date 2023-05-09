@@ -14,6 +14,10 @@ public class Point implements Comparable<Point> {
         this.y_coord = y;
     }
 
+    public Point copy() {
+        return new Point(this.x_coord, this.y_coord);
+    }
+
     public double get_x_coord() {
         return this.x_coord;
     }
