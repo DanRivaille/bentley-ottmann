@@ -60,14 +60,14 @@ public class GUI extends JFrame {
     private void drawPoint(Graphics2D g2, Point p, Paint color) {
         double new_x = p.get_x_coord() - 6 / 2.0;
         double new_y = p.get_y_coord() - 6 / 2.0;
-        Ellipse2D.Double point = new Ellipse2D.Double(new_x, new_y, 6, 6);
+        Ellipse2D.Double point = new Ellipse2D.Double(new_x, new_y - 100, 6, 6);
         g2.setPaint(color);
         g2.fill(point);
         g2.draw(point);
     }
 
     private void drawLine(Graphics2D g2, Segment s, Paint color) {
-        Line2D.Double segment = new Line2D.Double(s.first().get_x_coord(), s.first().get_y_coord(), s.second().get_x_coord(), s.second().get_y_coord());
+        Line2D.Double segment = new Line2D.Double(s.first().get_x_coord(), s.first().get_y_coord() - 100, s.second().get_x_coord(), s.second().get_y_coord() - 100);
         g2.setPaint(color);
         g2.draw(segment);
     }
