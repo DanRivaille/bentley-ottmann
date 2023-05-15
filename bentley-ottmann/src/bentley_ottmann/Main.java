@@ -1,6 +1,5 @@
 package bentley_ottmann;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 /**
@@ -27,14 +26,19 @@ public class Main {
         polylines.add(polyline);
 
         ArrayList<Segment> data = new ArrayList<>();
+        /*
         int aux = 3;
+
+
 
         switch (aux) {
             case 0 -> addPoints1(data);
             case 1 -> addPoints2(data);
-            case 2 -> addPoints3(data);
+            case 2 -> data = addPoints3();
             case 3 -> data = dataManager.loadPoints();
         }
+
+         */
         //dataManager.savePoints(data);
 
         int numberOfPolylinesSegments = 0;
@@ -44,6 +48,18 @@ public class Main {
             numberOfPolylinesSegments += segments.size();
             data.addAll(segments);
         }
+/*
+
+ */
+        ArrayList<Point> points = new ArrayList<>();
+
+        for(int i = 0; i < 40; i++) {
+            Point p_1 = new Point(rand(range_min, range_max), rand(range_min, range_max));
+            points.add(p_1);
+        }
+
+        ArrayList<Segment> segments = preprocessData(points);
+        data.addAll(segments);
 
         BentleyOttmann test = new BentleyOttmann(data, numberOfPolylinesSegments);
 
@@ -53,10 +69,33 @@ public class Main {
 
         ArrayList<Point> intersections = test.get_intersections();
 
-        new GUI(data, intersections, polylines);
+        //new GUI(data, intersections, polylines);
 
         System.out.println("number of intersections: " + intersections.size());
         System.out.println("runtime: " + (t2 - t1) + " ms");
+    }
+
+    private static ArrayList<Segment> preprocessData(List<Point> points) {
+        ArrayList<Segment> segments = new ArrayList<>();
+
+        int N = points.size();
+        double offset = 1.0 / (N * N);
+        double current_offset = 0;
+        for (int i = 0; i < N - 1; ++i) {
+            for (int j = i + 1; j < N; ++j) {
+                Point p1 = points.get(i).copy();
+                Point p2 = points.get(j).copy();
+
+                p1.set_x_coord(p1.get_x_coord() + current_offset);
+                p2.set_x_coord(p2.get_x_coord() + current_offset);
+
+                segments.add(new Segment(p1, p2, SegmentType.VERTEX_SEGMENT));
+
+                current_offset += offset;
+            }
+        }
+
+        return segments;
     }
 
     private static double rand(double range_min, double range_max) {
@@ -86,8 +125,8 @@ public class Main {
         data.add(new Segment(p5, p6, SegmentType.VERTEX_SEGMENT));
     }
 
-    private static void addPoints3(ArrayList<Segment> data) {
-        int numberOfPointsPerSide = 4;
+    private static ArrayList<Segment> addPoints3() {
+        int numberOfPointsPerSide = 2;
         double intervalRange = (range_max - range_min) / (numberOfPointsPerSide + 1);
         List<Point> points = new ArrayList<>();
         for(int i = 0; i < numberOfPointsPerSide; i++) {
@@ -97,13 +136,7 @@ public class Main {
             points.add(p_2);
         }
 
-        for (int i = 0; i < points.size(); ++i) {
-            for (int j = i + 1; j < points.size(); ++j) {
-                Point p_1 = points.get(i);
-                Point p_2 = points.get(j);
-                data.add(new Segment(p_1, p_2, SegmentType.VERTEX_SEGMENT));
-            }
-        }
+        return preprocessData(points);
     }
 
     private static void savePoints(ArrayList<Segment> data) {
