@@ -60,21 +60,19 @@ public class Main {
 
         ArrayList<Point> points = new ArrayList<>();
 
-        for(int i = 0; i < 50; i++) {
+        for(int i = 0; i < 3700; i++) {
             Point p_1 = new Point(rand(range_min, range_max), rand(range_min, range_max));
             points.add(p_1);
         }
 
-        switch (1) {
-            case 1:
-                ArrayList<Segment> segments = preprocessData(points);
-                data.addAll(segments);
-                test = new BentleyOttmann(data, numberOfPolylinesSegments);
-                break;
-            case 2: test = new GreedySolver(points, polylines);
-                break;
-            default: test = null;
-        }
+        ArrayList<Segment> segments = preprocessData(points);
+        data.addAll(segments);
+
+        test = switch (2) {
+            case 1 -> new BentleyOttmann(data, numberOfPolylinesSegments);
+            case 2 -> new GreedySolver(points, polylines);
+            default -> null;
+        };
 
 
         long t1 = System.currentTimeMillis();
