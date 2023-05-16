@@ -61,13 +61,13 @@ public class Main {
         ArrayList<Segment> segments = preprocessData(points);
         data.addAll(segments);
 
-        BentleyOttmann test = new BentleyOttmann(data, numberOfPolylinesSegments);
+        IntersectionsSolver test = new BentleyOttmann(data, numberOfPolylinesSegments);
 
         long t1 = System.currentTimeMillis();
-        test.find_intersections();
+        test.findIntersections();
         long t2 = System.currentTimeMillis();
 
-        ArrayList<Point> intersections = test.get_intersections();
+        ArrayList<Point> intersections = test.getIntersections();
 
         //new GUI(data, intersections, polylines);
 

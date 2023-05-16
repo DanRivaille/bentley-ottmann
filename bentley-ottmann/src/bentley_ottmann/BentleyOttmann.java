@@ -8,7 +8,7 @@ import java.util.*;
  * Edited by Ivan Santos V. on 3. 5. 2023.
  */
 
-public class BentleyOttmann {
+public class BentleyOttmann implements IntersectionsSolver {
 
     private final Queue<Event> Q;
     private final NavigableSet<Segment> T;
@@ -98,7 +98,8 @@ public class BentleyOttmann {
         }
     }
 
-    public void find_intersections() {
+    @Override
+    public void findIntersections() {
         int i = 0;
         while(!this.Q.isEmpty()) {
             Event e = this.Q.poll();
@@ -164,7 +165,8 @@ public class BentleyOttmann {
         }
     }
 
-    public ArrayList<Point> get_intersections() {
+    @Override
+    public ArrayList<Point> getIntersections() {
         return this.X;
     }
 
