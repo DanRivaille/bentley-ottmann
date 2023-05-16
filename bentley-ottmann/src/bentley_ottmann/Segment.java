@@ -11,7 +11,7 @@ public class Segment {
     private double value;
     private SegmentType type;
 
-    Segment(Point p_1, Point p_2, SegmentType type) {
+    public Segment(Point p_1, Point p_2, SegmentType type) {
         this.p_1 = p_1;
         this.p_2 = p_2;
         this.type = type;

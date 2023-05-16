@@ -1,5 +1,7 @@
 package bentley_ottmann;
 
+import bentley_ottmann.solvers.BentleyOttmann;
+
 import java.util.*;
 
 /**
@@ -53,7 +55,7 @@ public class Main {
  */
         ArrayList<Point> points = new ArrayList<>();
 
-        for(int i = 0; i < 40; i++) {
+        for(int i = 0; i < 50; i++) {
             Point p_1 = new Point(rand(range_min, range_max), rand(range_min, range_max));
             points.add(p_1);
         }

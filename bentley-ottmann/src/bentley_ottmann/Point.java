@@ -9,7 +9,7 @@ public class Point implements Comparable<Point> {
     private double x_coord;
     private double y_coord;
 
-    Point(double x, double y) {
+    public Point(double x, double y) {
         this.x_coord = x;
         this.y_coord = y;
     }

@@ -15,14 +15,14 @@ public class Event {
     private double value;
     private EventType type;
 
-    Event(Point p, Segment s, EventType type) {
+    public Event(Point p, Segment s, EventType type) {
         this.point = p;
         this.segments = new ArrayList<>(Arrays.asList(s));
         this.value = p.get_x_coord();
         this.type = type;
     }
 
-    Event(Point p, ArrayList<Segment> s, EventType type) {
+    public Event(Point p, ArrayList<Segment> s, EventType type) {
         this.point = p;
         this.segments = s;
         this.value = p.get_x_coord();
