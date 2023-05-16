@@ -1,6 +1,7 @@
 package bentley_ottmann;
 
 import bentley_ottmann.solvers.BentleyOttmann;
+import bentley_ottmann.solvers.GreedySolver;
 
 import java.util.*;
 
@@ -53,6 +54,10 @@ public class Main {
 /*
 
  */
+
+
+        IntersectionsSolver test;
+
         ArrayList<Point> points = new ArrayList<>();
 
         for(int i = 0; i < 50; i++) {
@@ -60,10 +65,17 @@ public class Main {
             points.add(p_1);
         }
 
-        ArrayList<Segment> segments = preprocessData(points);
-        data.addAll(segments);
+        switch (1) {
+            case 1:
+                ArrayList<Segment> segments = preprocessData(points);
+                data.addAll(segments);
+                test = new BentleyOttmann(data, numberOfPolylinesSegments);
+                break;
+            case 2: test = new GreedySolver(points, polylines);
+                break;
+            default: test = null;
+        }
 
-        IntersectionsSolver test = new BentleyOttmann(data, numberOfPolylinesSegments);
 
         long t1 = System.currentTimeMillis();
         test.findIntersections();
