@@ -10,19 +10,18 @@ import java.util.*;
  * Edited by Ivan Santos V. on 3. 5. 2023.
  */
 
-public class BentleyOttmann implements IntersectionsSolver {
+public class BentleyOttmann extends IntersectionsSolverImpl {
 
     private final Queue<Event> Q;
     private final NavigableSet<Segment> T;
-    private final ArrayList<Point> X;
     private final int numberOfPolylinesSegments;
     private int numberOfPolylinesSegmentsProcesses = 0;
     private int currentPolylinesSegmentsInProcess = 0;
 
     public BentleyOttmann(ArrayList<Segment> input_data, int numberOfPolylinesSegments) {
+        super();
         this.Q = new PriorityQueue<>(new event_comparator());
         this.T = new TreeSet<>(new segment_comparator());
-        this.X = new ArrayList<>();
         this.numberOfPolylinesSegments = numberOfPolylinesSegments;
         for(Segment s : input_data) {
             this.Q.add(new Event(s.first(), s, EventType.INITIAL_ENDPOINT));
@@ -118,25 +117,10 @@ public class BentleyOttmann implements IntersectionsSolver {
     }
 
     private void report_intersection(Segment s_1, Segment s_2, double L) {
-        double x1 = s_1.first().get_x_coord();
-        double y1 = s_1.first().get_y_coord();
-        double x2 = s_1.second().get_x_coord();
-        double y2 = s_1.second().get_y_coord();
-        double x3 = s_2.first().get_x_coord();
-        double y3 = s_2.first().get_y_coord();
-        double x4 = s_2.second().get_x_coord();
-        double y4 = s_2.second().get_y_coord();
-        double r = (x2 - x1) * (y4 - y3) - (y2 - y1) * (x4 - x3);
-        if(r != 0) {
-            double t = ((x3 - x1) * (y4 - y3) - (y3 - y1) * (x4 - x3)) / r;
-            double u = ((x3 - x1) * (y2 - y1) - (y3 - y1) * (x2 - x1)) / r;
-            if(t >= 0 && t <= 1 && u >= 0 && u <= 1) {
-                double x_c = x1 + t * (x2 - x1);
-                double y_c = y1 + t * (y2 - y1);
-                if(x_c > L) {
-                    this.Q.add(new Event(new Point(x_c, y_c), new ArrayList<>(Arrays.asList(s_1, s_2)), EventType.CROSS_POINT));
-                }
-            }
+        Point intersection = computeIntersection(s_1.first(), s_1.second(), s_2.first(), s_2.second());
+
+        if ((intersection != null) && (intersection.get_x_coord() > L)) {
+            this.Q.add(new Event(intersection, new ArrayList<>(Arrays.asList(s_1, s_2)), EventType.CROSS_POINT));
         }
     }
 
@@ -165,11 +149,6 @@ public class BentleyOttmann implements IntersectionsSolver {
         for (Segment segment : this.T) {
             segment.calculate_value(L);
         }
-    }
-
-    @Override
-    public ArrayList<Point> getIntersections() {
-        return this.X;
     }
 
     private static class event_comparator implements Comparator<Event> {
